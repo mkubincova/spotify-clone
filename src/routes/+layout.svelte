@@ -3,6 +3,16 @@
 	import '../styles/main.scss';
 	import type { LayoutData } from './$types';
 	import { Navigation, Header } from '$components';
+	import { page } from '$app/stores';
+	// @ts-ignore
+	import NProgress from 'nprogress';
+	import 'nprogress/nprogress.css';
+	import { beforeNavigate, afterNavigate } from '$app/navigation';
+	import { hideAll } from 'tippy.js';
+
+	NProgress.configure({
+		showSpinner: false
+	});
 
 	let topbar: HTMLElement;
 	let scrollY: number;
@@ -15,9 +25,25 @@
 	export let data: LayoutData;
 
 	$: user = data.user;
+
+	beforeNavigate(() => {
+		NProgress.start();
+		hideAll();
+	});
+
+	afterNavigate(() => {
+		NProgress.done();
+	});
 </script>
 
 <svelte:window bind:scrollY />
+<svelte:head>
+	<title>Spotify {$page.data.title ? `- ${$page.data.title}` : ''}</title>
+</svelte:head>
+
+{#if user}
+	<a href="#main-content" class="skip-link">Skip to content</a>
+{/if}
 
 <div id="main">
 	{#if user}
