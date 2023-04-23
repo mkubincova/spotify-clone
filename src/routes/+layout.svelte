@@ -55,7 +55,7 @@
 			<div id="topbar" bind:this={topbar}>
 				<div
 					class="topbar-bg"
-					style:background-color="var(--header-color)"
+					style:background-color={$page.data.color ? $page.data.color : 'var(--header-color)'}
 					style:opacity={`${headerOpacity}`}
 				/>
 				<Header />
@@ -102,6 +102,7 @@
 					position: absolute;
 					inset: 0;
 					z-index: -1;
+					background-image: linear-gradient(rgba(0, 0, 0, 0.2) 0 0);
 				}
 
 				@include breakpoint.up('md') {
