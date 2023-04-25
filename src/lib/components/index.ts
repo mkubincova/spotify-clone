@@ -7,3 +7,4 @@ export { default as Header } from './Header.svelte';
 export { default as ItemPage } from './ItemPage.svelte';
 export { default as Tracklist } from './Tracklist.svelte';
 export { default as Player } from './Player.svelte';
+export { default as Toasts } from './Toasts.svelte';
