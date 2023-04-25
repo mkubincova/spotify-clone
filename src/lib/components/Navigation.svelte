@@ -29,7 +29,7 @@
 		},
 		{
 			path: '/playlists',
-			label: 'Playlist',
+			label: 'Playlists',
 			icon: ListMusic
 		}
 	];

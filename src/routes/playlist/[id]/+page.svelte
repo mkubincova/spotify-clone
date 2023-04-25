@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData, ActionData } from './$types';
-	import { ItemPage, Tracklist, Button } from '$components';
+	import { ItemPage, Tracklist, Button, Pagination } from '$components';
 	import { page } from '$app/stores';
 	import { Heart } from 'lucide-svelte';
 	import { applyAction, enhance } from '$app/forms';
@@ -104,41 +104,7 @@
 
 	{#if playlist.tracks.items.length > 0}
 		<Tracklist tracks={filteredTracks} />
-		{#if tracks.next}
-			<div class="load-more">
-				<Button
-					element="button"
-					variant="outline"
-					disabled={isLoading}
-					aria-label="Load More Tracks"
-					on:click={loadMoreTracks}>Load More</Button
-				>
-			</div>
-		{/if}
-		<div class="pagination">
-			<div class="prev">
-				{#if tracks.previous}
-					<Button
-						element="a"
-						variant="outline"
-						href="{$page.url.pathname}?{new URLSearchParams({
-							page: `${Number(currentPage) - 1}`
-						}).toString()}">← Previous page</Button
-					>
-				{/if}
-			</div>
-			<div class="next">
-				{#if tracks.next}
-					<Button
-						element="a"
-						variant="outline"
-						href="{$page.url.pathname}?{new URLSearchParams({
-							page: `${Number(currentPage) + 1}`
-						}).toString()}">Next page →</Button
-					>
-				{/if}
-			</div>
-		</div>
+		<Pagination paginatedList={tracks} on:loadmore={loadMoreTracks} {isLoading} />
 	{:else}
 		<div class="empty-playlist">
 			<p>No items added to this playlist yet.</p>
@@ -173,21 +139,6 @@
 			&:first-child {
 				font-weight: 600;
 			}
-		}
-	}
-	.load-more {
-		padding: 15px;
-		text-align: center;
-		:global(html.no-js) & {
-			display: none;
-		}
-	}
-	.pagination {
-		display: none;
-		:global(html.no-js) & {
-			display: flex;
-			justify-content: space-between;
-			margin-top: 40px;
 		}
 	}
 	.playlist-actions {
