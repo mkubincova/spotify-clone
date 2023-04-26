@@ -60,7 +60,9 @@
 
 	<div class="playlist-actions">
 		{#if data.user?.id === playlist.owner.id}
-			<Button element="a" variant="outline">Edit playlist</Button>
+			<Button element="a" variant="outline" href="/playlist/{playlist.id}/edit"
+				>Edit playlist</Button
+			>
 		{:else if isFollowing !== null}
 			<form
 				action={`?/${isFollowing ? 'unFollowPlaylist' : 'followPlaylist'}`}
