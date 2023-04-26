@@ -8,11 +8,16 @@
 	import 'nprogress/nprogress.css';
 	import { beforeNavigate, afterNavigate } from '$app/navigation';
 	import { hideAll } from 'tippy.js';
-	import { toasts } from '$stores';
+	import Micromodal from 'micromodal';
+	import { browser } from '$app/environment';
 
 	NProgress.configure({
 		showSpinner: false
 	});
+
+	if (browser) {
+		Micromodal.init();
+	}
 
 	let topbar: HTMLElement;
 	let scrollY: number;
