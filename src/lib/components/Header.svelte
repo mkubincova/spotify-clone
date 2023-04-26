@@ -6,13 +6,15 @@
 	import Navigation from './Navigation.svelte';
 	import { ChevronDown, ExternalLink } from 'lucide-svelte';
 
+	export let userAllPLaylists: SpotifyApi.PlaylistObjectSimplified[] | undefined;
+
 	$: user = $page.data.user;
 </script>
 
 <div class="content">
 	<div class="left">
 		{#if browser}
-			<Navigation desktop={false} />
+			<Navigation desktop={false} {userAllPLaylists} />
 		{/if}
 	</div>
 	<div class="right">

@@ -30,6 +30,7 @@
 	export let data: LayoutData;
 
 	$: user = data.user;
+	$: userAllPLaylists = data.userAllPlaylists;
 
 	beforeNavigate(() => {
 		NProgress.start();
@@ -55,7 +56,7 @@
 <div id="main">
 	{#if user}
 		<div id="sidebar">
-			<Navigation desktop={true} />
+			<Navigation desktop={true} {userAllPLaylists} />
 		</div>
 	{/if}
 	<div id="content">
@@ -66,7 +67,7 @@
 					style:background-color={$page.data.color ? $page.data.color : 'var(--header-color)'}
 					style:opacity={`${headerOpacity}`}
 				/>
-				<Header />
+				<Header {userAllPLaylists} />
 			</div>
 		{/if}
 		<main id="main-content" class:logged-in={user}>

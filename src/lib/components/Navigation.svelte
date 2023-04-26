@@ -6,8 +6,10 @@
 	import { fade } from 'svelte/transition';
 	import { beforeNavigate } from '$app/navigation';
 	import { IconButton } from '$components';
+	import { each } from 'svelte/internal';
 
 	export let desktop: boolean;
+	export let userAllPLaylists: SpotifyApi.PlaylistObjectSimplified[] | undefined;
 
 	let isMobileMenuOpen = false;
 	$: isOpen = desktop || isMobileMenuOpen;
@@ -116,30 +118,43 @@
 					class="close-button"
 				/>
 			{/if}
-			<img src={logo} alt="Spotify" class="logo" />
-			<ul>
-				{#each menuItems as item, index}
-					{@const iconProps = {
-						focusable: 'false',
-						'aria-hidden': true,
-						color: 'var(--text-color)',
-						size: 26
-					}}
-					<li class:active={item.path === $page.url.pathname}>
-						{#if menuItems.length === index + 1}
-							<a href={item.path} bind:this={lastFocusableElement} on:keydown={moveFocusToTop}>
-								<svelte:component this={item.icon} {...iconProps} />
-								{item.label}
-							</a>
-						{:else}
-							<a href={item.path} bind:this={lastFocusableElement}>
-								<svelte:component this={item.icon} {...iconProps} />
-								{item.label}
-							</a>
-						{/if}
-					</li>
-				{/each}
-			</ul>
+			<div class="logo-and-menu">
+				<img src={logo} alt="Spotify" class="logo" />
+				<ul>
+					{#each menuItems as item, index}
+						{@const iconProps = {
+							focusable: 'false',
+							'aria-hidden': true,
+							color: 'var(--text-color)',
+							size: 26
+						}}
+						<li class:active={item.path === $page.url.pathname}>
+							{#if menuItems.length === index + 1}
+								<a href={item.path} bind:this={lastFocusableElement} on:keydown={moveFocusToTop}>
+									<svelte:component this={item.icon} {...iconProps} />
+									{item.label}
+								</a>
+							{:else}
+								<a href={item.path} bind:this={lastFocusableElement}>
+									<svelte:component this={item.icon} {...iconProps} />
+									{item.label}
+								</a>
+							{/if}
+						</li>
+					{/each}
+				</ul>
+			</div>
+			{#if userAllPLaylists && userAllPLaylists.length > 0}
+				<div class="all-playlists">
+					<ul>
+						{#each userAllPLaylists as playlist}
+							<li class:active={$page.url.pathname === `/playlist/${playlist.id}`}>
+								<a href="/playlist/{playlist.id}">{playlist.name}</a>
+							</li>
+						{/each}
+					</ul>
+				</div>
+			{/if}
 		</div>
 	</nav>
 </div>
@@ -161,12 +176,40 @@
 			width: 130px;
 		}
 		.nav-content-inner {
-			padding: 20px;
+			// padding: 20px;
 			min-width: var(--sidebar-width);
 			background-color: var(--sidebar-color);
 			height: 100vh;
-			overflow: auto;
+			// overflow: auto;
 			display: none;
+
+			.logo-and-menu {
+				padding: 20px 20px 0px;
+				overflow: hidden;
+			}
+			.all-playlists {
+				flex: 1;
+				overflow: auto;
+				padding: 15px 20px;
+				border-top: 1px solid var(--border);
+
+				:global(html.no-js) & {
+					@include breakpoint.down('md') {
+						display: none;
+					}
+				}
+
+				ul {
+					list-style: none;
+					margin: 0;
+					li {
+						margin: 0 0 5px;
+						a {
+							margin: 0;
+						}
+					}
+				}
+			}
 
 			:global(html.no-js) & {
 				@include breakpoint.down('md') {
@@ -212,7 +255,8 @@
 			top: 0;
 			.nav-content-inner {
 				@include breakpoint.up('md') {
-					display: block;
+					display: flex;
+					flex-direction: column;
 				}
 			}
 		}
@@ -231,7 +275,8 @@
 				}
 
 				@include breakpoint.down('md') {
-					display: block;
+					display: flex;
+					flex-direction: column;
 				}
 			}
 		}

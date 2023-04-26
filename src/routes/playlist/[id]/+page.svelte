@@ -9,7 +9,7 @@
 	import Micromodal from 'micromodal';
 	import PlaylistForm from '$components/PlaylistForm.svelte';
 	import type { ActionData as EditActionData } from './edit/$types';
-	import { invalidate } from '$app/navigation';
+	import { invalidate, invalidateAll } from '$app/navigation';
 
 	export let data: PageData;
 	export let form: ActionData | EditActionData;
@@ -94,6 +94,7 @@
 						}
 
 						followButon.focus();
+						invalidateAll();
 					};
 				}}
 			>
@@ -135,7 +136,8 @@
 		action="/playlist/{playlist.id}/edit"
 		on:success={() => {
 			Micromodal.close('edit-playlist-modal');
-			invalidate(`/api/spotify/playlists/${playlist.id}`);
+			// invalidate(`/api/spotify/playlists/${playlist.id}`);
+			invalidateAll();
 		}}
 	/>
 </Modal>
