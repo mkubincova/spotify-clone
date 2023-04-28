@@ -2,7 +2,7 @@
 	import { tippy } from '$actions';
 	import { browser } from '$app/environment';
 	import { page } from '$app/stores';
-	import { LogoutButton } from '$components';
+	import { LogoutButton, SearchForm } from '$components';
 	import Navigation from './Navigation.svelte';
 	import { ChevronDown, ExternalLink } from 'lucide-svelte';
 
@@ -15,6 +15,11 @@
 	<div class="left">
 		{#if browser}
 			<Navigation desktop={false} {userAllPLaylists} />
+		{/if}
+		{#if $page.url.pathname.startsWith('/search')}
+			<div class="search-form">
+				<SearchForm />
+			</div>
 		{/if}
 	</div>
 	<div class="right">
@@ -63,6 +68,12 @@
 </div>
 
 <style lang="scss">
+	.search-form {
+		display: none;
+		@include breakpoint.up('lg') {
+			display: block;
+		}
+	}
 	.content {
 		display: flex;
 		justify-content: space-between;

@@ -11,6 +11,7 @@
 	import Micromodal from 'micromodal';
 	import { browser } from '$app/environment';
 	import { X } from 'lucide-svelte';
+	import SearchForm from '$components/SearchForm.svelte';
 
 	NProgress.configure({
 		showSpinner: false
@@ -82,6 +83,11 @@
 			</div>
 		{/if}
 		<main id="main-content" class:logged-in={user}>
+			{#if $page.url.pathname.startsWith('/search')}
+				<div class="search-form">
+					<SearchForm />
+				</div>
+			{/if}
 			<slot />
 		</main>
 	</div>
@@ -159,6 +165,15 @@
 				padding: 30px 15px 60px;
 				@include breakpoint.up('md') {
 					padding: 30px 30px 60px;
+				}
+				.search-form {
+					margin-bottom: 40px;
+					@include breakpoint.up('lg') {
+						display: none;
+					}
+					:global(input) {
+						width: 100%;
+					}
 				}
 				&.logged-in {
 					padding-top: calc(30px + var(--header-height));
