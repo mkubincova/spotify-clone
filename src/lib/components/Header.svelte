@@ -2,7 +2,7 @@
 	import { tippy } from '$actions';
 	import { browser } from '$app/environment';
 	import { page } from '$app/stores';
-	import { LogoutButton, SearchForm } from '$components';
+	import { LogoutButton, SearchForm, HeaderNav } from '$components';
 	import Navigation from './Navigation.svelte';
 	import { ChevronDown, ExternalLink } from 'lucide-svelte';
 
@@ -16,6 +16,9 @@
 		{#if browser}
 			<Navigation desktop={false} {userAllPLaylists} />
 		{/if}
+
+		<HeaderNav />
+
 		{#if $page.url.pathname.startsWith('/search')}
 			<div class="search-form">
 				<SearchForm />
@@ -69,9 +72,13 @@
 
 <style lang="scss">
 	.search-form {
+		margin-left: 20px;
 		display: none;
 		@include breakpoint.up('lg') {
 			display: block;
+		}
+		:global(html.no-js) & {
+			margin-left: 0px;
 		}
 	}
 	.content {
@@ -79,11 +86,14 @@
 		justify-content: space-between;
 		align-items: center;
 		width: 100%;
-
 		:global(html.no-js) & {
 			@include breakpoint.down('md') {
 				justify-content: flex-start;
 			}
+		}
+		.left {
+			display: flex;
+			align-items: center;
 		}
 	}
 	.profile-button {
@@ -95,32 +105,28 @@
 		align-items: center;
 		color: var(--text-color);
 		cursor: pointer;
-
 		:global(html.no-js) & {
 			display: none;
-		}
-
-		&:hover {
-			background-color: var(--accent-color);
 		}
 		:global(.profile-arrow) {
 			margin-left: 3px;
 		}
 		img {
 			width: 28px;
-			aspect-ratio: 1;
+			height: 28px;
 			border-radius: 100%;
 			margin-right: 10px;
+		}
+		&:hover {
+			background-color: var(--accent-color);
 		}
 	}
 	.profile-menu-content {
 		padding: 5px 0;
-
 		ul {
 			padding: 0;
 			margin: 0;
 			list-style: none;
-
 			li {
 				&:hover {
 					background-image: linear-gradient(rgba(255, 255, 255, 0.07) 0 0);
@@ -131,9 +137,9 @@
 				}
 				a,
 				:global(button) {
-					padding: 10px 15px;
 					display: inline-block;
-					background: transparent;
+					padding: 10px 15px;
+					background: none;
 					border: none;
 					text-decoration: none;
 					cursor: pointer;
