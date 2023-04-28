@@ -28,7 +28,9 @@
 	</p>
 	<Tracklist
 		tracks={album.tracks.items}
-		userPLaylists={data.userAllPlaylists?.filter((pl) => pl.owner.id === data.user?.id)}
+		userPlaylists={data.userAllPlaylists?.filter((pl) => pl.owner.id === data.user?.id)}
+		total={album.tracks.total}
+		title={album.name}
 	/>
 
 	<div class="credits">

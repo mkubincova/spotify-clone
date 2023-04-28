@@ -120,7 +120,9 @@
 		<Tracklist
 			tracks={filteredTracks}
 			isOwner={data.user?.id === playlist.owner.id}
-			userPLaylists={data.userAllPlaylists?.filter((pl) => pl.owner.id === data.user?.id)}
+			userPlaylists={data.userAllPlaylists?.filter((pl) => pl.owner.id === data.user?.id)}
+			title={playlist.name}
+			total={playlist.tracks.total}
 		/>
 		<Pagination paginatedList={tracks} on:loadmore={loadMoreTracks} {isLoading} />
 	{:else}
