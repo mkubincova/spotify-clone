@@ -14,14 +14,14 @@
 		if (data.newReleases) {
 			sections.push({
 				title: 'New releases',
-				path: '/sections/new-releases',
+				path: '/section/new-releases',
 				items: data.newReleases.albums.items
 			});
 		}
 		if (data.featuredPlaylists) {
 			sections.push({
 				title: 'Featured playlists',
-				path: '/sections/featured-playlists',
+				path: '/section/featured-playlists',
 				items: data.featuredPlaylists.playlists.items
 			});
 		}

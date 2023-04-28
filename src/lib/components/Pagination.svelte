@@ -3,7 +3,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import Button from './Button.svelte';
 
-	export let paginatedList: SpotifyApi.PagingObject<any>;
+	export let paginatedList: SpotifyApi.PagingObject<any> | SpotifyApi.CursorBasedPagingObject<any>;
 	export let isLoading: boolean = false;
 
 	$: currentPage = $page.url.searchParams.get('page') || 1;
@@ -28,30 +28,32 @@
 	</div>
 {/if}
 
-<div class="pagination">
-	<div class="prev">
-		{#if paginatedList.previous}
-			<Button
-				element="a"
-				variant="outline"
-				href="{$page.url.pathname}?{new URLSearchParams({
-					page: `${Number(currentPage) - 1}`
-				})}">← Previous page</Button
-			>
-		{/if}
+{#if 'previous' in paginatedList}
+	<div class="pagination">
+		<div class="prev">
+			{#if paginatedList.previous}
+				<Button
+					element="a"
+					variant="outline"
+					href="{$page.url.pathname}?{new URLSearchParams({
+						page: `${Number(currentPage) - 1}`
+					})}">← Previous page</Button
+				>
+			{/if}
+		</div>
+		<div class="next">
+			{#if paginatedList.next}
+				<Button
+					element="a"
+					variant="outline"
+					href="{$page.url.pathname}?{new URLSearchParams({
+						page: `${Number(currentPage) + 1}`
+					})}">Next page →</Button
+				>
+			{/if}
+		</div>
 	</div>
-	<div class="next">
-		{#if paginatedList.next}
-			<Button
-				element="a"
-				variant="outline"
-				href="{$page.url.pathname}?{new URLSearchParams({
-					page: `${Number(currentPage) + 1}`
-				})}">Next page →</Button
-			>
-		{/if}
-	</div>
-</div>
+{/if}
 
 <style lang="scss">
 	.load-more {
